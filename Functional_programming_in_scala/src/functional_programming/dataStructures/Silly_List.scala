@@ -68,6 +68,16 @@ object List {
     case Cons(x,Nil) => Nil
     case Cons(x,as) => Cons(x,init(as))
   }
+  
+  def foldRight[A,B](l:List[A], z:B)(f:(A,B)=>B): B= l match {
+    case Nil => z
+    case Cons(x,xs) => f(x,foldRight(xs,z)(f))
+  }
+  
+  //Compute the length of a list using foldRight
+  def length[A](l: List[A]): Int = {
+    foldRight(l,0)((_,acc) => acc+1)
+  }
 }
   
 
