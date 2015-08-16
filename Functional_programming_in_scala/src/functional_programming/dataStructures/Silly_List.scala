@@ -69,14 +69,44 @@ object List {
     case Cons(x,as) => Cons(x,init(as))
   }
   
-  def foldRight[A,B](l:List[A], z:B)(f:(A,B)=>B): B= l match {
+  //foldRight function.!!!!
+  def foldRight[A,B](l: List[A], z:B)(f:(A,B) => B):B = l match{
     case Nil => z
-    case Cons(x,xs) => f(x,foldRight(xs,z)(f))
+    case Cons(k,xs) => f(k,foldRight(xs,z)(f))
+  }
+  
+  def sum2(l: List[Int]) = {
+    foldRight(l,0)(_+_)
+  }
+  
+  def product2(l: List[Double]) = { 
+    foldRight(l,1.0)(_ * _)
+  }
+  
+  
+  def init1[A](l:List[A]):List[A] = l match{
+    case Nil => throw new IllegalArgumentException
+    case Cons(x,Nil) => Nil
+    case Cons(x,ls) => Cons(x,init1(ls))
   }
   
   //Compute the length of a list using foldRight
   def length[A](l: List[A]): Int = {
     foldRight(l,0)((_,acc) => acc+1)
+  }
+  
+  //foldLeft function.!!!!
+  def foldLeft[A,B](l: List[A], z:B)(f:(B,A) => B):B = l match{
+    case Nil => z
+    case Cons(x,xs) => foldLeft(xs,f(z,x))(f)
+  }
+  
+  def sumL(l:List[Double])= {
+    foldLeft(l,0.0)(_ + _)
+  }
+  
+  def productL(l:List[Double]) = {
+    foldLeft(l,1.0)(_ * _)
   }
 }
   
@@ -86,7 +116,7 @@ object silly_List{
     val example = Cons(1,Cons(2,Cons(3,Nil)))
     val example3 = Cons(3,Nil)
     val example2 = List(1)
-    print(List.init(example3))
+    print(List.foldLeft(example,0)(_+_))
     
   }
 }
