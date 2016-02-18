@@ -117,7 +117,6 @@ object silly_List{
     val example3 = Cons(3,Nil)
     val example2 = List(1)
     print(List.foldLeft(example,0)(_+_))
-    
   }
 }
 
