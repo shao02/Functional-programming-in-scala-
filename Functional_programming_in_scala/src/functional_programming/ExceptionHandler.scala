@@ -1,4 +1,4 @@
-
+import scala.collection.immutable.List
 sealed trait Option[+A]{
   def map[B](f: A => B): Option[B] = this match{    
     case None => None
@@ -28,6 +28,8 @@ sealed trait Option[+A]{
 case class Some[+A](get: A) extends Option[A]
 case object None extends Option[Nothing]
 
+case class Employee(name:String,department:String)
+
 object justKill {
    def main(args: Array[String]): Unit = {
      def mean(xs:Seq[Double]): Option[Double]=
@@ -49,5 +51,17 @@ object justKill {
      
      println("Option filter 1 result: "+ab.filter((x:Int)=>(x > 0)))
      println("Option filter None result: "+ab2.filter((x:Int)=>(x > 0)))
+     
+     
+     ///More example of using Option
+     val employee=scala.collection.immutable.List(Employee("Alice","cs"),Employee("Bob","Math")).map { e => (e.name,e) }
+     println("Map list: " + employee)
+     println("Map : " + employee.toMap)
+     val dept:scala.Option[String] = employee.toMap.get("Alice").map { _.department }
+     println("Map dept: "+dept)
+     
+     def variance(xs:Seq[Double]): Option[Double] = {
+      mean(xs) flatMap (m => mean(xs.map(x => math.pow(x - m, 2)))) 
+     }
    }
 }
