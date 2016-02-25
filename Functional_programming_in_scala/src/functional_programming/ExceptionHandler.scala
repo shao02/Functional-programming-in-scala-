@@ -36,6 +36,17 @@ object justKill {
        if (xs.isEmpty) None
        else Some(xs.sum / xs.length)
        
+     def variance[Double](xs:Seq[Double]): Option[Double] = {
+      mean(xs) flatMap (m => mean(xs.map(x => math.pow(x - m, 2)))) 
+     }
+     
+     ￼def map2[A,B,C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] ={
+       a flatMap (aa => b map (bb => f(aa, bb)))
+     }
+     
+     def lift[A,B](f: A=>B): Option[A] => Option[B] = _ map f
+     
+     val newList = Seq(1.0,3.0,4.0,5.0,6.0,7.0)
      val ab = Some(1)
      val ab2 = None
      println("Option map 1 result: "+ab.map((x:Int) => x * 2))
@@ -59,9 +70,8 @@ object justKill {
      println("Map : " + employee.toMap)
      val dept:scala.Option[String] = employee.toMap.get("Alice").map { _.department }
      println("Map dept: "+dept)
-     
-     def variance(xs:Seq[Double]): Option[Double] = {
-      mean(xs) flatMap (m => mean(xs.map(x => math.pow(x - m, 2)))) 
-     }
+     println("Variance of List: " +newList + ".. is "+variance(newList))
+     val k:scala.collection.mutable.Map[Int,String] = scala.collection.mutable.Map(1,"1")
+    
    }
 }
